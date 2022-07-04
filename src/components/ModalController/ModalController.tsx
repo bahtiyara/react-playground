@@ -1,12 +1,18 @@
-import { animated, useSpring } from "@react-spring/web"
+import { animated, easings, useSpring } from "@react-spring/web"
 import useModal from "../../hooks/useModal"
 import styles from "./ModalController.module.css"
 
 function ModalController() {
     const [Modal, toggleModal, visible] = useModal()
     const style = useSpring({
-        opacity: visible ? 1 : 0,
-        y: visible ? 48 : 24,
+        to: {
+            opacity: visible ? 1 : 0,
+            y: visible ? 48 : 24,
+        },
+        // config: {
+        //     duration: 260,
+        //     easing: easings.easeInOutQuart,
+        // },
     })
 
     return (

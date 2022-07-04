@@ -18,7 +18,7 @@ export default function useModal() {
         // reverse: visible,
         // delay: 200,
         config: {
-            duration: 260,
+            duration: 300,
             easing: easings.easeInOutQuart,
         },
         // onRest: () => setVisible((prev) => !prev),
