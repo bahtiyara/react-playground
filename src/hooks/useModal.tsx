@@ -1,3 +1,4 @@
+import { animated, easings, useTransition } from "@react-spring/web"
 import { useState } from "react"
 import { createPortal } from "react-dom"
 
@@ -10,37 +11,53 @@ type ModalProps = {
 
 export default function useModal() {
     const [visible, setVisible] = useState(false)
+    const transitions = useTransition(visible, {
+        from: { opacity: 0 },
+        enter: { opacity: 1 },
+        leave: { opacity: 0 },
+        // reverse: visible,
+        // delay: 200,
+        config: {
+            duration: 260,
+            easing: easings.easeInOutQuart,
+        },
+        // onRest: () => setVisible((prev) => !prev),
+    })
 
     const Modal = ({ children, onClick, style, ...rest }: ModalProps) => {
-        if (!visible) return null
-
-        return createPortal(
-            <div
-                style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100vw",
-                    height: "100vh",
-                    zIndex: 100,
-                    ...style,
-                }}
-                {...rest}
-                onClick={(e) => {
-                    e.currentTarget === e.target && toggleModal()
-                    onClick && onClick(e)
-                }}
-            >
-                {children}
-            </div>,
-            document.querySelector("#modal-root")!
+        return transitions(
+            (styles, item) =>
+                item &&
+                createPortal(
+                    <animated.div
+                        style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            bottom: 0,
+                            right: 0,
+                            zIndex: 100,
+                            ...style,
+                            ...styles,
+                        }}
+                        {...rest}
+                        onClick={(e) => {
+                            e.currentTarget === e.target && toggleModal()
+                            onClick && onClick(e)
+                        }}
+                    >
+                        {children}
+                    </animated.div>,
+                    document.querySelector("#modal-root")!
+                )
         )
     }
 
     const toggleModal = () => setVisible(!visible)
 
-    return [Modal, toggleModal] as [
+    return [Modal, toggleModal, visible] as [
         (props: ModalProps) => React.ReactPortal | null,
-        () => void
+        () => void,
+        boolean
     ]
 }
