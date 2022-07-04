@@ -1,0 +1,19 @@
+body {
+    background-color: var(--color-b1);
+}
+
+.app {
+    display: flex;
+    width: 600px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(100px);
+    flex-direction: column;
+    gap: 16px;
+    color: var(--color-f1);
+}
+
+[data-theme="dark"] .app {
+    background: var(--color-b2);
+}

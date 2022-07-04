@@ -1,0 +1,9 @@
+.content {
+    background-color: var(--color-b1);
+    width: 360px;
+    margin: auto;
+    transform: translateY(48px);
+    padding: 16px;
+    min-height: 300px;
+    color: var(--color-f1);
+}
